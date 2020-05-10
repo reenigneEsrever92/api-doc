@@ -2,6 +2,6 @@
 :author: Felix Marezki
 :toc:
 
-link:https://github.com/reenigneEsrever92/api-doc/blob/master/README.adoc[]
+include::https://github.com/reenigneEsrever92/api-doc/blob/master/README.adoc[]
 
 ## Something

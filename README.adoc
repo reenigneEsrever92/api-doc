@@ -8,8 +8,8 @@ Home for multiple Java projects that should make REST API documentation easy
 
 ## Motivation
 People use documentation to make (REST) APIs accessible by clients and customers.
-Yet, I've always found it to be cumbersome and clunky to include it in different
-projects. That might also be due to different methodologies used to drive
+Yet, I've always found it to be cumbersome and clunky to include documentation in
+different projects. That might also be due to different methodologies used to drive
 development of services that advertise their functionality through an API that is
 supposed to be restishly.
 

@@ -1,1 +1,7 @@
-include::http://google.de
+# api-doc
+:author: Felix Marezki
+:toc:
+
+link:https://github.com/reenigneEsrever92/api-doc/blob/master/README.adoc[]
+
+## Something

@@ -2,7 +2,7 @@
 :author: Felix Marezki
 :email: fmarezki@gmail.com
 
-image::https://github.com/reenigneEsrever92/api-doc/workflows/Java%20CI%20with%20Gradle/badge.svg[]
+image::https://github.com/reenigneEsrever92/api-doc/workflows/Java%20CI%20with%20Gradle/badge.svg?style=flat-square&?branch=master[]
 
 Home for multiple Java projects that should make REST API documentation easy
 

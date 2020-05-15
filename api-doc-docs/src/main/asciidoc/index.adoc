@@ -1,7 +1,6 @@
 # api-doc
 :author: Felix Marezki
-:toc:
+:email: fmarezki@gmail.com
+:toc: left
 
-include::https://github.com/reenigneEsrever92/api-doc/blob/master/README.adoc[]
-
-## Something
+include::motivation.adoc[]

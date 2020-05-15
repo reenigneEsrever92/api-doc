@@ -1,0 +1,19 @@
+plugins {
+    id 'org.asciidoctor.convert' version '1.5.9.2'
+    id "de.gafertp.plantuml" version "2.0.1"
+}
+
+asciidoctor {
+    sourceDir = file('src/main/asciidoc')
+    sources {
+        include 'index.adoc'
+    }
+    outputDir = file('build/docs')
+}
+
+plantUml {
+    render input: 'src/main/plantuml/*.puml', output: "${project.buildDir.absolutePath}/svgs", format: 'svg', withMetadata: true
+}
+
+tasks.findByPath("asciidoctor").dependsOn("plantUml")
+tasks.findByPath("build").dependsOn("asciidoctor")

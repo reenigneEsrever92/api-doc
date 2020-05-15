@@ -17,5 +17,17 @@ gradle-app.setting
 build
 
 .gitattributes
+
+# idea
 .idea
 *.iml
+
+# eclipse
+.settings
+.project
+.classpath
+.factorypath
+
+# vscode
+.vscode
+bin

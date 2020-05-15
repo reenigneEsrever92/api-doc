@@ -6,6 +6,4 @@ image::https://github.com/reenigneEsrever92/api-doc/workflows/Java%20CI%20with%2
 
 Home for multiple Java projects that should make REST API documentation easy
 
-include::api-doc-docs/src/main/asciidoc/motivation.adoc[]
-
 link:api-doc-docs/src/main/asciidoc/index.adoc[Here is the docs]

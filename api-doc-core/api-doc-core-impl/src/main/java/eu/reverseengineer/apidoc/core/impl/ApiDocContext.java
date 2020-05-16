@@ -5,59 +5,74 @@ import java.util.List;
 import java.util.Optional;
 
 import eu.reverseengineer.apidoc.api.IApiDocContext;
-import eu.reverseengineer.apidoc.api.IApiDocChain;
 import eu.reverseengineer.apidoc.api.IApiDocGenerator;
+import eu.reverseengineer.apidoc.api.IApiDocChain;
+import eu.reverseengineer.apidoc.api.IApiDocProcessor;
+import eu.reverseengineer.apidoc.api.IApiDocResult;
 import eu.reverseengineer.apidoc.api.IApiDocSubject;
+import eu.reverseengineer.apidoc.api.exception.ApiDocException;
 import eu.reverseengineer.apidoc.api.exception.ApiDocNoResultException;
 
-public class ApiDocContext<T, R> implements IApiDocContext<T, R>, IApiDocChain<T, R> {
+public class ApiDocContext<T, R> implements IApiDocContext<T, R>, IApiDocChain<T> {
 
-    private List<IApiDocGenerator<T, R>> generators = new ArrayList<>(16);
+    private List<IApiDocProcessor<T>> processors = new ArrayList<>(16);
     private int executionCounter = 0;
 
     @Override
-    public IApiDocContext<T, R> add(IApiDocGenerator<T, R> generator) {
-        generators.add(generator);
+    public IApiDocContext<T, R> add(IApiDocProcessor<T> generator) {
+        processors.add(generator);
         return this;
     }
 
     @Override
-    public R run() throws ApiDocNoResultException{
-        IApiDocSubject<T, R> subject = new ApiDocSubject<>();
+    public IApiDocResult<R> generate(IApiDocGenerator<T, R> generator) {
+        IApiDocSubject<T> subject = new ApiDocSubject<>();
         executionCounter = 0;
         delegate(subject);
-        return subject.result().orElseThrow(() -> new ApiDocNoResultException(this));
+        return new ApiDocResult<T, R>(generator, subject);
     }
 
     @Override
-    public void delegate(IApiDocSubject<T, R> subject) {
-        generators.get(executionCounter++).run(subject, this);
+    public void delegate(IApiDocSubject<T> subject) {
+        if (executionCounter >= processors.size())
+            return;
+
+        try {
+            processors.get(executionCounter++).run(subject, this);
+        } catch (ApiDocException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    private static class ApiDocSubject<T, R> implements IApiDocSubject<T, R> {
+    private static class ApiDocResult<T, R> implements IApiDocResult<R> {
 
-        private T api;
-        private R result;
+        private IApiDocGenerator<T, R> generator;
+        private IApiDocSubject<T> subject;
 
-        @Override
-        public void setApi(T api) {
-            this.api = api;
+        public ApiDocResult(IApiDocGenerator<T, R> generator, IApiDocSubject<T> subject) {
+            this.generator = generator;
+            this.subject = subject;
         }
 
         @Override
-        public Optional<T> api() {
-            return Optional.ofNullable(api);
+        public R get() {
+            return generator.generate(subject);
+        }
+
+    }
+
+    private static class ApiDocSubject<T> implements IApiDocSubject<T> {
+
+        private T value;
+
+        @Override
+        public void setValue(T api) {
+            this.value = api;
         }
 
         @Override
-        public void setResult(R result) {
-            this.result = result;
+        public Optional<T> value() {
+            return Optional.ofNullable(value);
         }
-
-        @Override
-        public Optional<R> result() {
-            return Optional.ofNullable(result);
-        }
-
     }
 }

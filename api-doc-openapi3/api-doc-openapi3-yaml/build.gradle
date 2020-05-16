@@ -1,0 +1,13 @@
+plugins {
+    id 'java-library'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile(project(':api-doc-core:api-doc-core-api'))
+    compile('io.swagger.core.v3:swagger-models:2.1.2')
+    compile('io.swagger.parser.v3:swagger-parser:2.0.20')
+}

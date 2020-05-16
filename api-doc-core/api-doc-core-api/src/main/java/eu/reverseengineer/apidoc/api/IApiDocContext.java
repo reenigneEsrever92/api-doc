@@ -1,8 +1,6 @@
 package eu.reverseengineer.apidoc.api;
 
-import eu.reverseengineer.apidoc.api.exception.ApiDocNoResultException;
-
 public interface IApiDocContext<T, R> {
-    IApiDocContext<T, R> add(IApiDocGenerator<T, R> generator);
-    R run() throws ApiDocNoResultException;
+    IApiDocContext<T, R> add(IApiDocProcessor<T> processor);
+    IApiDocResult<R> generate(IApiDocGenerator<T, R> generator);
 }

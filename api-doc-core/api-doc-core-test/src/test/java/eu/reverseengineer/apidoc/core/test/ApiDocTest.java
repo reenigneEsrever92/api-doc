@@ -2,6 +2,7 @@ package eu.reverseengineer.apidoc.core.test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.assertj.core.internal.bytebuddy.asm.MemberSubstitution.Substitution.Chain;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -25,14 +26,15 @@ public class ApiDocTest {
     @Test
     @DisplayName("ApiDoc :: Core :: Simple Generator")
     public void testSimpleGenerator() throws ApiDocNoResultException {
-        IApiDocContext<Object, String> ctx = new ApiDocContext<>();
+        IApiDocContext<String, String> ctx = new ApiDocContext<>();
 
         ctx.add((subject, delegate) -> {
-            subject.setApi(new Object());
-            subject.setResult("result");
+            subject.setValue("testValue");
         });
 
-        assertThat(ctx.run()).isEqualTo("result");
+        assertThat(ctx.generate(
+            (subject) -> subject.value().get()
+        ).get()).isEqualTo("testValue");
     }
 
     @Test
@@ -41,18 +43,42 @@ public class ApiDocTest {
         IApiDocContext<String, String> ctx = new ApiDocContext<>();
 
         ctx.add((subject, chain) -> {
-            subject.setApi("testApi");
-            subject.setResult("result");
+            subject.setValue("testApi");
             chain.delegate(subject);
         });
 
         ctx.add((subject, chain) -> {
-            assertThat(subject.api().get())
+            assertThat(subject.value().get())
                 .isEqualTo("testApi");
                 
-            subject.setResult("result2");
+            subject.setValue("result2");
         });
 
-        assertThat(ctx.run()).isEqualTo("result2");
+        assertThat(ctx.generate(
+            (subject) -> subject.value().get()
+        ).get()).isEqualTo("result2");
+    }
+
+    @Test
+    @DisplayName("ApiDoc :: Core :: Overcomitted Delegates")
+    public void testOvercomittedDelegates() throws ApiDocNoResultException {
+        IApiDocContext<String, String> ctx = new ApiDocContext<>();
+
+        ctx.add((subject, chain) -> {
+            subject.setValue("testApi");
+            chain.delegate(subject);
+        });
+
+        ctx.add((subject, chain) -> {
+            chain.delegate(subject);
+            assertThat(subject.value().get())
+                .isEqualTo("testApi");
+                
+            subject.setValue("result2");
+        });
+
+        assertThat(ctx.generate(
+            (subject) -> subject.value().get()
+        ).get()).isEqualTo("result2");
     }
 }

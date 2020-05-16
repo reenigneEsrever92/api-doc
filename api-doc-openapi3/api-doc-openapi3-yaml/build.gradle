@@ -10,4 +10,10 @@ dependencies {
     compile(project(':api-doc-core:api-doc-core-api'))
     compile('io.swagger.core.v3:swagger-models:2.1.2')
     compile('io.swagger.parser.v3:swagger-parser:2.0.20')
+
+    testCompile('org.assertj:assertj-core:3.16.1')
+    testCompile(project(':api-doc-core:api-doc-core-impl'))
+
+    testImplementation('org.junit.jupiter:junit-jupiter-api:5.6.2')
+    testRuntimeOnly('org.junit.jupiter:junit-jupiter-engine:5.6.2')
 }

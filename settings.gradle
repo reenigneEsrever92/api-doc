@@ -8,13 +8,19 @@
  */
 
 rootProject.name = 'api-doc'
+
 include("api-doc-docs")
+
 include("api-doc-core")
+
 include("api-doc-core:api-doc-core-api")
 include("api-doc-core:api-doc-core-impl")
 include("api-doc-core:api-doc-core-test")
+
 include("api-doc-openapi3")
 include("api-doc-openapi3:api-doc-openapi3-yaml")
+
+include("api-doc-servlet")
 
 include("api-doc-spring")
 include("api-doc-spring:api-doc-spring")

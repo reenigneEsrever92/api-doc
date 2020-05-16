@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import eu.reverseengineer.apidoc.api.IApiDocChain;
 import eu.reverseengineer.apidoc.api.IApiDocContext;
 import eu.reverseengineer.apidoc.api.IApiDocGenerator;
-import eu.reverseengineer.apidoc.api.IApiDocChain;
 import eu.reverseengineer.apidoc.api.IApiDocProcessor;
 import eu.reverseengineer.apidoc.api.IApiDocResult;
 import eu.reverseengineer.apidoc.api.IApiDocSubject;
 import eu.reverseengineer.apidoc.api.exception.ApiDocException;
-import eu.reverseengineer.apidoc.api.exception.ApiDocNoResultException;
+import eu.reverseengineer.apidoc.api.exception.ApiDocGeneratorException;
 
 public class ApiDocContext<T, R> implements IApiDocContext<T, R>, IApiDocChain<T> {
 
@@ -56,7 +56,11 @@ public class ApiDocContext<T, R> implements IApiDocContext<T, R>, IApiDocChain<T
 
         @Override
         public R get() {
-            return generator.generate(subject);
+            try {
+                return generator.generate(subject);
+            } catch (ApiDocGeneratorException e) {
+                throw new RuntimeException(e);
+            }
         }
 
     }

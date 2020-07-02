@@ -19,9 +19,13 @@ include("api-doc-core:api-doc-core-test")
 
 include("api-doc-openapi3")
 include("api-doc-openapi3:api-doc-openapi3-yaml")
+include("api-doc-openapi3:api-doc-openapi3-json")
 
 include("api-doc-servlet")
 
 include("api-doc-spring")
 include("api-doc-spring:api-doc-spring")
 include("api-doc-spring:api-doc-spring-boot")
+
+include 'api-doc-quarkus'
+
